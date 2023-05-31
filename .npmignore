@@ -1,0 +1,8 @@
+.versionrc.json
+.github
+.idea
+src
+.eslintrc.json
+.gitignone
+.prettierrc
+index.ts
