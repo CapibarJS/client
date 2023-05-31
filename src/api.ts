@@ -1,5 +1,5 @@
-import {Transport} from "./transport";
-import {objectSet} from "../utils/struct";
+import { Transport } from './transport';
+import { objectSet } from '../utils/struct';
 
 export class ApiRPC {
   api = {};
@@ -11,21 +11,17 @@ export class ApiRPC {
   constructor(url: string) {
     this.transport = Transport.scaffold(url);
     this.api = {};
-    // TODO решить какую структуру оставить tree или map
     this.structureMap = new Map();
   }
 
   async syncApi() {
     const syncStruct = this.transport.getExecutor('_', 'introspect');
-    const response:any = await syncStruct({ typing: true });
-    const {
-      ['#schemas']: schemas,
-      ['#api']: config,
-      ...structure
-    } = response;
+    const response: any = await syncStruct({ typing: true });
+    const { ['#schemas']: schemas, ['#api']: config, ...structure } = response;
     this.schemas = schemas;
     this.config = config;
-    const setMethod = (namespace, method) => this.transport.getExecutor(namespace, method);
+    const setMethod = (namespace, method) =>
+      this.transport.getExecutor(namespace, method);
     for (const path of Object.keys(structure)) {
       const keys = path.split('.');
       const method = keys.pop();
