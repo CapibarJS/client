@@ -1,6 +1,13 @@
 # Changelog CapibarJS/Client.
 
 
+### 0.0.4 (2023-05-31)
+
+
+### Bug Fixes
+
+* HttpClient getExecutor ([b99c8dd](https://github.com/CapibarJS/client/commit/b99c8dd7ff426c4734bc44d26d67456afa0681f3))
+
 ### 0.0.3 (2023-05-31)
 
 

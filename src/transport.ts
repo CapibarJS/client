@@ -1,22 +1,22 @@
 interface ITransport {
-  build(args: any): Promise<any>
-  getExecutor(namespace: string, method: string): (args: any) => Promise<any>
+  build(args: any): Promise<any>;
+  getExecutor(namespace: string, method: string): (args: any) => Promise<any>;
 }
 
-export class Transport implements ITransport{
-  protocol: string
-  host: string
-  port: string
-  url: string
-  base: string
+export class Transport implements ITransport {
+  protocol: string;
+  host: string;
+  port: string;
+  url: string;
+  base: string;
 
   constructor(url: string) {
-    const {protocol, host, port, pathname} = new URL(url);
+    const { protocol, host, port, pathname } = new URL(url);
     this.protocol = protocol;
     this.host = host;
     this.port = port;
     this.url = url;
-    this.base = pathname ? pathname.slice(1) : 'api'
+    this.base = pathname.length > 1 ? pathname.slice(1) : 'api';
   }
 
   getExecutor(namespace: string, method: string) {
@@ -35,7 +35,6 @@ export class Transport implements ITransport{
   }
 }
 
-
 class HttpClient extends Transport {
   constructor(url) {
     super(url);
@@ -46,8 +45,8 @@ class HttpClient extends Transport {
       new Promise((resolve, reject) => {
         fetch(`${this.url}/${this.base}/${namespace}/${method}`, {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({name: namespace, method, args}),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: namespace, method, args }),
         }).then((res) => {
           if (res.status === 200) resolve(res.json());
           else reject(new Error(`Status Code: ${res.status}`));
@@ -67,7 +66,7 @@ class WsClient extends Transport {
   getExecutor(namespace, method): (args: any) => Promise<any> {
     return (...args) =>
       new Promise((resolve) => {
-        const packet = {name: namespace, method, args};
+        const packet = { name: namespace, method, args };
         this.socket.send(JSON.stringify(packet));
         this.socket.onmessage = (event) => {
           const data = JSON.parse(event.data);
