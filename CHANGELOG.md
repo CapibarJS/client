@@ -1,6 +1,13 @@
 # Changelog CapibarJS/Client.
 
 
+### 0.0.3 (2023-05-31)
+
+
+### Bug Fixes
+
+* npm ignore ([3ea1b1e](https://github.com/CapibarJS/client/commit/3ea1b1e686a87bfa4651be3e9bea9bb1631531a0))
+
 ### 0.0.2 (2023-05-31)
 
 
