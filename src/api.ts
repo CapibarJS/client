@@ -8,7 +8,7 @@ export class ApiRPC {
   config = {};
   private transport: Transport;
 
-  constructor(url: string) {
+  constructor(url: string, protected isExplorer?: boolean) {
     this.transport = Transport.scaffold(url);
     this.api = {};
     this.structureMap = new Map();
@@ -16,7 +16,7 @@ export class ApiRPC {
 
   async syncApi() {
     const syncStruct = this.transport.getExecutor('_', 'introspect');
-    const response: any = await syncStruct({ typing: true });
+    const response: any = await syncStruct({ typing: this.isExplorer });
     const { ['#schemas']: schemas, ['#api']: config, ...structure } = response;
     this.schemas = schemas;
     this.config = config;

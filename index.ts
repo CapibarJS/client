@@ -1,8 +1,9 @@
-import {ApiRPC} from "./src/api";
+import { ApiRPC } from './src/api';
 
 type CapibarModuleOptions = {
-  clients?: Record<string, string>
-}
+  clients?: Record<string, string>;
+  isExplorer?: boolean;
+};
 
 export class CapibarModule {
   clients = {};
@@ -10,9 +11,11 @@ export class CapibarModule {
 
   constructor(options: CapibarModuleOptions = {}) {
     if (!options.clients) options.clients = {};
+    options.isExplorer = options.isExplorer ?? false;
     // Clients
     for (const [name, defs] of Object.entries(options.clients)) {
-      if (typeof defs === 'string') this.rpc[name] = new ApiRPC(defs);
+      if (typeof defs === 'string')
+        this.rpc[name] = new ApiRPC(defs, options.isExplorer);
     }
   }
 
