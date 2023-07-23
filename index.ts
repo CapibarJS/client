@@ -24,4 +24,14 @@ export class CapibarModule {
       this.clients[name] = await apiRpc.build();
     }
   }
+
+  static async buildClient(source: string) {
+    const api = new CapibarModule({
+      clients: {
+        [source.startsWith('ws') ? 'ws' : 'http']: source,
+      },
+    });
+    await api.build();
+    return api;
+  }
 }
